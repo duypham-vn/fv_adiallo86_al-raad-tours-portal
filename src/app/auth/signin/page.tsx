@@ -20,7 +20,8 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
-import { z } from 'zod/v4';
+
+import { schema, SignInPayload } from '@app/api/auth/signin/types';
 
 import Surface from '@components/Surface';
 
@@ -32,13 +33,6 @@ import classes from './page.module.css';
 const LINK_PROPS = {
 	className: classes.link,
 };
-
-const schema = z.object({
-	email: z.string().email('Invalid email'),
-	password: z.string().min(6, 'Password must be at least 6 characters'),
-});
-
-export type SignInPayload = z.infer<typeof schema>;
 
 export default function Page() {
 	const router = useRouter();
