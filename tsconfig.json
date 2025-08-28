@@ -18,7 +18,7 @@
     ],
     "paths": {
 			"@app/*": ["./src/app/*"],
-			"@commons/*": ["./src/commons/*"],
+			"@components/*": ["./src/components/*"],
 			"@modules/*": ["./src/modules/*"],
 			"@helpers/*": ["./src/helpers/*"],
 			"@configs/*": ["./src/configs/*"],

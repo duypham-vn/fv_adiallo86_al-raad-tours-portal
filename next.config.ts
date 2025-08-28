@@ -18,7 +18,12 @@ module.exports = withBundleAnalyzer({
 	output: 'standalone',
 	reactStrictMode: true,
 	images: {
-		domains: ['images.dmca.com', 'cdn.evelingo.vn'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'images.dmca.com',
+			},
+		],
 	},
 	compiler: {
 		removeConsole: process.env.NODE_ENV === 'production',
