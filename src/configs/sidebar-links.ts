@@ -26,7 +26,7 @@ export const SIDEBAR_LINKS = [
 			{
 				label: 'Change Password',
 				icon: IconKey,
-				link: PATH_ACCOUNTS.profile,
+				link: PATH_ACCOUNTS.changePassword,
 			},
 		],
 	},

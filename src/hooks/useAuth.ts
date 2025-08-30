@@ -119,6 +119,23 @@ export const useAuth = () => {
 		}
 	};
 
+	const changePassword = async (password: string) => {
+		if (!user?.email) {
+			throw new Error('User not found');
+		}
+
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email: user.email,
+			password,
+		});
+
+		if (error) {
+			throw new Error("Password doesn't match");
+		}
+
+		return data;
+	};
+
 	return {
 		user,
 		session,
@@ -128,6 +145,7 @@ export const useAuth = () => {
 		logout,
 		resetPassword,
 		updatePassword,
+		changePassword,
 		accessToken: session?.access_token,
 	};
 };
