@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_POOLED_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+model Partners {
+  id String @id
+
+  firstName   String @map("first_name")
+  lastName    String @map("last_name")
+  companyName String @map("company_name")
+
+  phoneNumber String @map("phone_number")
+  email       String @unique
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Referrals Referrals[]
+
+  @@map("partners")
+}
+
+model Referrals {
+  id String @id @default(uuid())
+
+  firstName       String  @map("first_name")
+  lastName        String  @map("last_name")
+  email           String  @map("email")
+  phoneNumber     String  @map("phone_number")
+  passportNumber  String  @unique @map("passport_number")
+  additionalNotes String? @map("additional_notes")
+
+  programId String   @map("program_id")
+  program   Programs @relation(fields: [programId], references: [id])
+
+  partner   Partners @relation(fields: [partnerId], references: [id])
+  partnerId String   @map("partner_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("referrals")
+}
+
+model Programs {
+  id String @id @default(uuid())
+
+  name String @map("name")
+
+  status ProgramStatus @map("status")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Referrals Referrals[]
+
+  @@map("programs")
+}
+
+model TriggerLogs {
+  id String @id @default(uuid())
+
+  action  String  @map("action")
+  payload Json    @map("payload")
+  error   String? @map("error")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("trigger_logs")
+}
+
+enum ProgramStatus {
+  ACTIVE
+  ARCHIVED
+}

@@ -44,6 +44,7 @@ module.exports = defineConfig([
 					groups: [
 						['^next'],
 						['^react'],
+						['^@mantine'],
 						['^@?\\w'],
 						['^@(app)(/.*|$)'],
 						['^@(apis)(/.*|$)'],
@@ -51,6 +52,7 @@ module.exports = defineConfig([
 						['^@(components)(/.*|$)'],
 						['^@(configs)(/.*|$)'],
 						['^@(hooks)(/.*|$)'],
+						['^@(stores)(/.*|$)'],
 						['^@(helpers)(/.*|$)'],
 						['^@(utils)(/.*|$)'],
 						['^@(hooks)(/.*|$)'],
@@ -86,6 +88,7 @@ module.exports = defineConfig([
 						['@assets', './src/assets'],
 						['@styles', './src/styles'],
 						['@hooks', './src/hooks'],
+						['@stores', './src/stores'],
 					],
 
 					extensions: ['.ts', '.tsx', '.js', '.jsx'],

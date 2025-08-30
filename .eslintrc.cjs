@@ -22,6 +22,7 @@ module.exports = {
 				groups: [
 					['^next'],
 					['^react'],
+					['^mantine'],
 					['^@?\\w'],
 					['^@(app)(/.*|$)'],
 					['^@(apis)(/.*|$)'],
@@ -29,6 +30,7 @@ module.exports = {
 					['^@(components)(/.*|$)'],
 					['^@(configs)(/.*|$)'],
 					['^@(hooks)(/.*|$)'],
+					['^@(stores)(/.*|$)'],
 					['^@(helpers)(/.*|$)'],
 					['^@(utils)(/.*|$)'],
 					['^@(hooks)(/.*|$)'],
@@ -57,6 +59,7 @@ module.exports = {
 					['@assets', './src/assets'],
 					['@styles', './src/styles'],
 					['@hooks', './src/hooks'],
+					['@stores', './src/stores'],
 				],
 				extensions: ['.ts', '.tsx', '.js', '.jsx'],
 			},
