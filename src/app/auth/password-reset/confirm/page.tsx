@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+
 import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import z from 'zod/v4';
@@ -28,7 +29,7 @@ import { PATH_AUTH } from '@configs/routes';
 import { createClient } from '@helpers/supabase/client';
 
 import classes from '../page.module.css';
-import { usePasswordResetConfirm } from '../services/usePasswordResetConfirm';
+import { useUpdatePassword } from '../services/useUpdatePassword';
 
 const schema = z
 	.object({
@@ -54,7 +55,7 @@ export default function ConfirmPage() {
 		isPending,
 		error,
 		isError,
-	} = usePasswordResetConfirm();
+	} = useUpdatePassword();
 
 	const form = useForm<ResetPasswordPayload>({
 		initialValues: {

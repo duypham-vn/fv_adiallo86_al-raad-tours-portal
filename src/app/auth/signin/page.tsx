@@ -18,10 +18,11 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+
 import { IconAlertCircle } from '@tabler/icons-react';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 
-import { schema, SignInPayload } from '@app/api/auth/signin/types';
+import { SignInPayload, SignInSchema } from '@app/api/auth/signin/types';
 
 import Surface from '@components/Surface';
 
@@ -41,7 +42,7 @@ export default function Page() {
 
 	const form = useForm<SignInPayload>({
 		initialValues: { email: '', password: '' },
-		validate: zod4Resolver(schema),
+		validate: zod4Resolver(SignInSchema),
 	});
 
 	const handleSubmit = async (values: typeof form.values) => {

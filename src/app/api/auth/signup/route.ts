@@ -1,71 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { Partners } from '@prisma/client';
+import { ZodError } from 'zod';
+
+import { ApiResponse } from '@app/api/types/common';
+import { catchZodError } from '@app/api/utils/catchZodError';
+
+import { createClient as createPrismaClient } from '@helpers/prisma/server';
 import { createClient } from '@helpers/supabase/server';
 
-export async function POST(request: NextRequest) {
+import { SignupSchema } from './types';
+
+export async function POST(
+	request: NextRequest,
+): Promise<NextResponse<ApiResponse<Partners | null>>> {
 	try {
-		const { firstName, lastName, email, password } = await request.json();
-
-		// Validate input
-		if (!firstName || !lastName || !email || !password) {
-			return NextResponse.json(
-				{ error: 'All fields are required' },
-				{ status: 400 },
-			);
-		}
-
-		// Validate email format
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (!emailRegex.test(email)) {
-			return NextResponse.json(
-				{ error: 'Invalid email format' },
-				{ status: 400 },
-			);
-		}
-
-		// Validate password length
-		if (password.length < 6) {
-			return NextResponse.json(
-				{ error: 'Password must be at least 6 characters long' },
-				{ status: 400 },
-			);
-		}
+		const data = SignupSchema.parse(await request.json());
 
 		const supabase = await createClient();
+		const prisma = await createPrismaClient();
 
-		// Sign up with Supabase
-		const { data, error } = await supabase.auth.signUp({
-			email,
-			password,
+		const { firstName, lastName, email, password, companyName, phoneNumber } =
+			data;
+
+		const { data: authUser, error } = await supabase.auth.signUp({
+			email: email,
+			password: password,
 			options: {
 				data: {
-					first_name: firstName,
-					last_name: lastName,
 					full_name: `${firstName} ${lastName}`,
 				},
 			},
 		});
 
-		if (error) {
+		if (error || !authUser.user) {
 			return NextResponse.json(
-				{ error: error.message || 'Failed to create account' },
+				{ error: error?.message || 'Failed to create account', data: null },
 				{ status: 400 },
 			);
 		}
 
-		// Return success response
-		return NextResponse.json({
-			message: 'Account created successfully',
-			user: {
-				id: data.user?.id,
-				email: data.user?.email,
-				created_at: data.user?.created_at,
+		const partner = await prisma.partners.create({
+			data: {
+				id: authUser.user.id,
+				firstName,
+				lastName,
+				email,
+				companyName,
+				phoneNumber,
 			},
 		});
+
+		return NextResponse.json({ data: partner }, { status: 201 });
 	} catch (error) {
-		console.error('Sign up error:', error);
+		console.log('Sin up error', error);
+
+		if (error instanceof ZodError) {
+			return catchZodError(error);
+		}
+
 		return NextResponse.json(
-			{ error: 'Internal server error' },
+			{ error: 'Internal server error', data: null },
 			{ status: 500 },
 		);
 	}

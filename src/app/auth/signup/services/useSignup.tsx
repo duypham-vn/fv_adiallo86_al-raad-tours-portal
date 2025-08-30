@@ -1,16 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { SignUpPayload } from '../types';
+import { SignupPayload } from '@app/api/auth/signup/types';
+
+import { useAuth } from '@hooks/useAuth';
 
 export const useSignup = () => {
-	return useMutation({
-		mutationFn: async (data: SignUpPayload) => {
-			const response = await fetch('/api/auth/signup', {
-				method: 'POST',
-				body: JSON.stringify(data),
-			});
+	const { signup } = useAuth();
 
-			return response.json();
+	return useMutation({
+		mutationFn: async (data: SignupPayload) => {
+			return signup(data);
 		},
 	});
 };

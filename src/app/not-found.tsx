@@ -12,6 +12,7 @@ import {
 	Title,
 	useMantineTheme,
 } from '@mantine/core';
+
 import { IconChevronLeft, IconHome2 } from '@tabler/icons-react';
 
 import { PATH_DASHBOARD } from '@configs/routes';

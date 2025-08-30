@@ -14,6 +14,7 @@ import {
 	useMantineColorScheme,
 	useMantineTheme,
 } from '@mantine/core';
+
 import { IconHome2, IconRefresh } from '@tabler/icons-react';
 
 import classes from './error.module.css';

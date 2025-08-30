@@ -18,9 +18,11 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+
 import { IconAlertCircle } from '@tabler/icons-react';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
-import { z } from 'zod/v4';
+
+import { SignupPayload, SignupSchema } from '@app/api/auth/signup/types';
 
 import Surface from '@components/Surface';
 
@@ -33,37 +35,22 @@ const LINK_PROPS = {
 	className: classes.link,
 };
 
-const schema = z
-	.object({
-		firstName: z.string().min(2, 'First name must be at least 2 characters'),
-		lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-		email: z.string().email('Invalid email'),
-		password: z.string().min(6, 'Password must be at least 6 characters'),
-		confirmPassword: z
-			.string()
-			.min(6, 'Password must be at least 6 characters'),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Passwords do not match',
-		path: ['confirmPassword'],
-	});
-
-export type SignUpPayload = z.infer<typeof schema>;
-
 export default function Page() {
 	const router = useRouter();
 
 	const { mutateAsync: signup, isPending, error, isError } = useSignup();
 
-	const form = useForm<SignUpPayload>({
+	const form = useForm<SignupPayload>({
 		initialValues: {
 			firstName: '',
 			lastName: '',
+			companyName: '',
+			phoneNumber: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
 		},
-		validate: zod4Resolver(schema),
+		validate: zod4Resolver(SignupSchema),
 	});
 
 	const handleSubmit = async (values: typeof form.values) => {
@@ -124,6 +111,23 @@ export default function Page() {
 								placeholder="Doe"
 								withAsterisk
 								{...form.getInputProps('lastName')}
+							/>
+						</Flex>
+						<Flex
+							direction={{ base: 'column', sm: 'row' }}
+							gap={{ base: 'md' }}
+						>
+							<TextInput
+								label="Company name"
+								placeholder="Example Inc."
+								withAsterisk
+								{...form.getInputProps('companyName')}
+							/>
+							<TextInput
+								label="Phone number"
+								placeholder="+123 456 7890"
+								withAsterisk
+								{...form.getInputProps('phoneNumber')}
 							/>
 						</Flex>
 						<TextInput
