@@ -59,7 +59,7 @@ export default function Page() {
 
 	return (
 		<>
-			<title>Sign in</title>
+			<title>Sign in Al Raad Tours & Travel</title>
 			<meta
 				name="description"
 				content="Sign in to your account to access the dashboard."

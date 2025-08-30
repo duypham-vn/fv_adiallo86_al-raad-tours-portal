@@ -53,7 +53,7 @@ export async function POST(
 
 		return NextResponse.json({ data: partner }, { status: 201 });
 	} catch (error) {
-		console.log('Sin up error', error);
+		console.log('Sign up error', error);
 
 		if (error instanceof ZodError) {
 			return catchZodError(error);

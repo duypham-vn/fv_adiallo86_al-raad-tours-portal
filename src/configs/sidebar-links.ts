@@ -1,6 +1,6 @@
-import { IconUserCircle, IconUserCode } from '@tabler/icons-react';
+import { IconKey, IconUserCode, IconUsers } from '@tabler/icons-react';
 
-import { PATH_APPS } from './routes';
+import { PATH_ACCOUNTS, PATH_APPS } from './routes';
 
 export const SIDEBAR_LINKS = [
 	// {
@@ -17,9 +17,17 @@ export const SIDEBAR_LINKS = [
 	// },
 	{
 		title: 'Apps',
+		links: [{ label: 'Referrals', icon: IconUsers, link: PATH_APPS.referrals }],
+	},
+	{
+		title: 'Accounts',
 		links: [
-			{ label: 'Profile', icon: IconUserCircle, link: PATH_APPS.profile },
-			{ label: 'Referrals', icon: IconUserCode, link: PATH_APPS.referrals },
+			{ label: 'Profile', icon: IconUserCode, link: PATH_ACCOUNTS.profile },
+			{
+				label: 'Change Password',
+				icon: IconKey,
+				link: PATH_ACCOUNTS.profile,
+			},
 		],
 	},
 ];

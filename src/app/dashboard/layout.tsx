@@ -6,8 +6,8 @@ type Props = {
 	children: ReactNode;
 };
 
-function DashboardLayout({ children }: Props) {
+const DashboardLayout = ({ children }: Props) => {
 	return <MainLayout>{children}</MainLayout>;
-}
+};
 
 export default DashboardLayout;

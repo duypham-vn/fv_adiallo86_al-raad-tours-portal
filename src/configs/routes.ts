@@ -6,6 +6,7 @@ const ROOTS_DASHBOARD = '/dashboard';
 const ROOT_APPS = '/apps';
 const ROOTS_PAGES = '/pages';
 const ROOTS_AUTH = '/auth';
+const ROOTS_ACCOUNTS = path(ROOTS_DASHBOARD, '/accounts');
 
 export const PATH_DASHBOARD = {
 	root: ROOTS_DASHBOARD,
@@ -16,7 +17,6 @@ export const PATH_DASHBOARD = {
 
 export const PATH_APPS = {
 	root: ROOT_APPS,
-	profile: path(ROOT_APPS, '/profile'),
 	referrals: path(ROOT_APPS, '/referrals'),
 };
 
@@ -30,4 +30,10 @@ export const PATH_AUTH = {
 	signin: path(ROOTS_AUTH, '/signin'),
 	signup: path(ROOTS_AUTH, '/signup'),
 	passwordReset: path(ROOTS_AUTH, '/password-reset'),
+};
+
+export const PATH_ACCOUNTS = {
+	root: ROOTS_ACCOUNTS,
+	profile: path(ROOTS_ACCOUNTS, '/profile'),
+	changePassword: path(ROOTS_ACCOUNTS, '/change-password'),
 };
