@@ -54,8 +54,6 @@ export default function Page() {
 	});
 
 	const handleSubmit = async (values: typeof form.values) => {
-		console.log('Values', values);
-
 		await signup(values);
 
 		notifications.show({

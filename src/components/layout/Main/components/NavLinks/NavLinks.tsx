@@ -14,7 +14,6 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 
 import { IconChevronRight } from '@tabler/icons-react';
-import last from 'lodash/last';
 
 import classes from './NavLinks.module.css';
 
@@ -45,11 +44,8 @@ export function LinksGroup(props: LinksGroupProps) {
 	const pathname = usePathname();
 	const hasLinks = Array.isArray(links);
 	const [opened, setOpened] = useState(initiallyOpened || false);
-	const [currentPath, setCurrentPath] = useState<string | undefined>();
 	const ChevronIcon = IconChevronRight;
 	const tablet_match = useMediaQuery('(max-width: 768px)');
-
-	console.log('Current Path', currentPath);
 
 	const LinkItem = ({ link }: { link: { label: string; link: string } }) => {
 		return (
@@ -193,7 +189,7 @@ export function LinksGroup(props: LinksGroupProps) {
 	useEffect(() => {
 		const paths = pathname.split('/');
 		setOpened(paths.includes(label.toLowerCase()));
-		setCurrentPath(last(paths)?.toLowerCase() || undefined);
+		// setCurrentPath(last(paths)?.toLowerCase() || undefined);
 	}, [pathname, label]);
 
 	return <>{content}</>;

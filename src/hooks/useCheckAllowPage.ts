@@ -25,7 +25,5 @@ export const useCheckAllowPage = () => {
 		});
 	});
 
-	console.log('Link config', linkConfig?.roles?.includes(role));
-
 	return linkConfig?.roles?.includes(role) ?? false;
 };
