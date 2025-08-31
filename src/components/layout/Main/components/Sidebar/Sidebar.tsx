@@ -87,7 +87,6 @@ const SidebarNav = ({ onClose, showCloseButton = false }: NavigationProps) => {
 					image={user?.user_metadata.avatar_url ?? ''}
 					name={user?.user_metadata.full_name ?? ''}
 					showText={true}
-					p={0}
 				/>
 			</div>
 		</div>

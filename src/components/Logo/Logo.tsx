@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Group, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
+import { Group, UnstyledButton } from '@mantine/core';
 
 import classes from './Logo.module.css';
 
 type LogoProps = {
 	href?: string;
 	showText?: boolean;
-} & UnstyledButtonProps;
+	className?: string;
+};
 
 const Logo = ({ href, ...others }: LogoProps) => {
 	return (

@@ -2,21 +2,16 @@
 
 import { forwardRef, ReactNode } from 'react';
 
-import {
-	Box,
-	BoxProps,
-	createPolymorphicComponent,
-	PaperProps,
-} from '@mantine/core';
+import { Box, createPolymorphicComponent } from '@mantine/core';
 
 export type CardFeel = 'flat' | 'elevated' | 'bordered';
 
 type SurfaceProps = {
 	children: ReactNode;
 	feel?: CardFeel;
-	hover?: boolean; // Enable hover effects
-} & BoxProps &
-	PaperProps;
+	hover?: boolean;
+	className?: string;
+};
 
 const Surface = createPolymorphicComponent<'div', SurfaceProps>(
 	// eslint-disable-next-line react/display-name

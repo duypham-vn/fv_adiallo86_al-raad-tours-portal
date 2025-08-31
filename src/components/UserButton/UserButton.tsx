@@ -1,12 +1,6 @@
 import { ReactNode } from 'react';
 
-import {
-	Avatar,
-	Group,
-	Text,
-	UnstyledButton,
-	UnstyledButtonProps,
-} from '@mantine/core';
+import { Avatar, Group, Text, UnstyledButton } from '@mantine/core';
 
 import { IconChevronRight } from '@tabler/icons-react';
 
@@ -19,7 +13,7 @@ type UserProfileButtonProps = {
 	icon?: ReactNode;
 	asAction?: boolean;
 	showText?: boolean;
-} & UnstyledButtonProps;
+};
 
 const UserProfileButton = ({
 	image,

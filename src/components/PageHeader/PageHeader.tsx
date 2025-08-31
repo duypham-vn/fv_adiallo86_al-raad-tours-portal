@@ -4,10 +4,8 @@ import { ReactNode } from 'react';
 
 import {
 	Breadcrumbs,
-	BreadcrumbsProps,
 	Divider,
 	Flex,
-	PaperProps,
 	rem,
 	Stack,
 	Text,
@@ -26,7 +24,7 @@ type PageHeaderProps = {
 	breadcrumbItems?: any;
 	actionButton?: ReactNode;
 	actionContent?: ReactNode;
-} & PaperProps;
+};
 
 const PageHeader = (props: PageHeaderProps) => {
 	const {
@@ -42,7 +40,7 @@ const PageHeader = (props: PageHeaderProps) => {
 	const theme = useMantineTheme();
 	const colorScheme = useColorScheme();
 
-	const BREADCRUMBS_PROPS: Omit<BreadcrumbsProps, 'children'> = {
+	const BREADCRUMBS_PROPS: Omit<any, 'children'> = {
 		style: {
 			a: {
 				padding: rem(8),
@@ -78,7 +76,7 @@ const PageHeader = (props: PageHeaderProps) => {
 
 	return (
 		<>
-			<Surface p="md" {...others}>
+			<Surface {...others}>
 				{withActions ? (
 					<Flex
 						justify="space-between"
