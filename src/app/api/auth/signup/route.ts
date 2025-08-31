@@ -30,7 +30,6 @@ export async function POST(
 				data: {
 					full_name: `${firstName} ${lastName}`,
 				},
-				emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}`,
 			},
 		});
 
