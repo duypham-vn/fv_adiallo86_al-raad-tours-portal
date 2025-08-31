@@ -90,7 +90,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [router, isPublicPage]);
+	}, [router, isPublicPage, isResetPasswordPage]);
 
 	// Show loading while checking authentication
 	if (isLoading) {
