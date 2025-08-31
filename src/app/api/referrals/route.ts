@@ -25,8 +25,10 @@ const getPaging = async (request: AuthRequest) => {
 
 	const where: Prisma.ReferralsWhereInput = {};
 
-	if (isAdminRole(request.user) && partnerId) {
-		where.partnerId = partnerId;
+	if (isAdminRole(request.user)) {
+		partnerId && (where.partnerId = partnerId);
+	} else {
+		where.partnerId = request.user.id;
 	}
 
 	const total = await prisma.referrals.count({ where });

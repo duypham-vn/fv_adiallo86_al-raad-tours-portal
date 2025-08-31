@@ -2,8 +2,8 @@
 
 import { ReactNode } from 'react';
 
-import { Box, useMantineTheme } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { Box } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 import HeaderNav from './components/Header';
 import SidebarNav from './components/Sidebar';
@@ -14,40 +14,12 @@ type Props = {
 };
 
 export function MainLayout({ children }: Props) {
-	const theme = useMantineTheme();
-	const tablet_match = useMediaQuery('(max-width: 768px)');
 	const mobile_match = useMediaQuery('(max-width: 425px)');
-	const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
-		useDisclosure();
 
 	const shouldOverlay = mobile_match;
 
-	// Show overlay backdrop when sidebar overlays content
-
-	const handleSidebarToggle = () => {
-		if (mobile_match) {
-			// Mobile: toggle mobile menu
-			toggleMobile();
-		} else {
-			// Desktop: toggle sidebar visibility in theme config
-			toggleSidebarVisibility();
-		}
-	};
-
-	const handleSidebarClose = () => {
-		if (mobile_match) {
-			closeMobile();
-		} else {
-			hideSidebar();
-		}
-	};
-
 	return (
 		<Box className={layoutClasses.layoutRoot}>
-			{mobile_match && mobileOpened && (
-				<Box className={layoutClasses.overlay} onClick={closeMobile} />
-			)}
-
 			<Box
 				className={layoutClasses.sidebar}
 				data-overlay={shouldOverlay}
@@ -57,10 +29,7 @@ export function MainLayout({ children }: Props) {
 					zIndex: shouldOverlay ? 102 : 101,
 				}}
 			>
-				<SidebarNav
-					onClose={handleSidebarClose}
-					showCloseButton={mobile_match}
-				/>
+				<SidebarNav showCloseButton={false} onClose={() => {}} />
 			</Box>
 
 			<Box
@@ -71,12 +40,7 @@ export function MainLayout({ children }: Props) {
 				pos="relative"
 			>
 				<Box className={layoutClasses.header} py="sm" px="lg" bg="white">
-					<HeaderNav
-						mobileOpened={mobileOpened}
-						toggleMobile={toggleMobile}
-						sidebarVisible={true}
-						onSidebarToggle={handleSidebarToggle}
-					/>
+					<HeaderNav />
 				</Box>
 				<Box className={layoutClasses.content}>{children}</Box>
 			</Box>

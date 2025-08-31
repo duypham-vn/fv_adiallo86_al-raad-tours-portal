@@ -26,7 +26,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-	// Check if current page is public
 	const isPublicPage = PUBLIC_PAGES.some((page) => pathname?.startsWith(page));
 
 	useEffect(() => {

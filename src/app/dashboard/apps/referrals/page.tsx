@@ -1,10 +1,14 @@
 'use client';
 
+import { redirect } from 'next/navigation';
+
 import { Anchor, Box, Container, Stack } from '@mantine/core';
 
 import PageHeader from '@components/PageHeader';
 
 import { PATH_APPS, PATH_DASHBOARD } from '@configs/routes';
+
+import { useCheckAllowPage } from '@hooks/useCheckAllowPage';
 
 import { CreateReferralButton } from './components/CreateReferralButton';
 import { ReferralsTable } from './components/ReferralsTable';
@@ -20,6 +24,12 @@ const items = [
 ));
 
 export default function Page() {
+	const isAllowed = useCheckAllowPage();
+
+	if (!isAllowed) {
+		return redirect('/not-found');
+	}
+
 	return (
 		<>
 			<>

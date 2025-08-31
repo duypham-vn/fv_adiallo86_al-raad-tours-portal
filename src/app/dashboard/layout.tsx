@@ -6,7 +6,7 @@ type Props = {
 	children: ReactNode;
 };
 
-const DashboardLayout = ({ children }: Props) => {
+const DashboardLayout = async ({ children }: Props) => {
 	return <MainLayout>{children}</MainLayout>;
 };
 

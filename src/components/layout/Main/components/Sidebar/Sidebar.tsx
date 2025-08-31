@@ -6,6 +6,7 @@ import { IconX } from '@tabler/icons-react';
 import Logo from '@components/Logo/Logo';
 import UserProfileButton from '@components/UserButton';
 
+import { ADMIN_EMAIL } from '@configs/_constant';
 import { SIDEBAR_LINKS } from '@configs/sidebar-links';
 
 import { useAuth } from '@hooks/useAuth';
@@ -13,6 +14,8 @@ import { useAuth } from '@hooks/useAuth';
 import { LinksGroup } from '../NavLinks';
 
 import classes from './Sidebar.module.css';
+
+import { Role } from '@/types/auth';
 
 type NavigationProps = {
 	onClose: () => void;
@@ -23,6 +26,12 @@ const SidebarNav = ({ onClose, showCloseButton = false }: NavigationProps) => {
 	const tablet_match = useMediaQuery('(max-width: 768px)');
 
 	const { user } = useAuth();
+
+	const isAllowed = (item: any) => {
+		const role = user?.email === ADMIN_EMAIL ? Role.ADMIN : Role.PARTNER;
+
+		return item.roles.includes(role);
+	};
 
 	const links = SIDEBAR_LINKS.map((m) => (
 		<Box key={m.title} pl={0} mb="md">
@@ -36,7 +45,7 @@ const SidebarNav = ({ onClose, showCloseButton = false }: NavigationProps) => {
 			>
 				{m.title}
 			</Text>
-			{m.links.map((item) => (
+			{m.links.filter(isAllowed).map((item) => (
 				<LinksGroup
 					key={item.label}
 					{...item}
