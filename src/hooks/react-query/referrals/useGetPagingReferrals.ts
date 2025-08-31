@@ -12,11 +12,12 @@ export const useGetPagingReferrals = (params: GetReferralsQueryParams) => {
 	return useQuery({
 		queryKey: [QUERY_KEYS.REFERRALS.GET_PAGING, params],
 		queryFn: async () => {
-			const { page, limit } = params;
+			const { page, limit, partnerId } = params;
 
 			const queryParams = new URLSearchParams({
 				page: page.toString(),
 				limit: limit.toString(),
+				partnerId: partnerId || '',
 			});
 
 			const response = await fetchAuth(`/api/referrals?${queryParams}`);

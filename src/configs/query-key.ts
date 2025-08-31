@@ -8,4 +8,7 @@ export const QUERY_KEYS = {
 	REFERRALS: {
 		GET_PAGING: 'get-paging-referrals',
 	},
+	PARTNERS: {
+		GET_PAGING: 'get-paging-partners',
+	},
 };

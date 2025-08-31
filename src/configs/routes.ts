@@ -20,6 +20,7 @@ export const PATH_APPS = {
 	root: ROOT_APPS,
 	referrals: path(ROOT_APPS, '/referrals'),
 	programs: path(ROOT_APPS, '/programs'),
+	partners: path(ROOT_APPS, '/partners'),
 };
 
 export const PATH_PAGES = {

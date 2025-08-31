@@ -19,13 +19,18 @@ import dayjs from 'dayjs';
 import { useDeleteReferral } from '@hooks/react-query/referrals/useDeleteReferral';
 import { useGetPagingReferrals } from '@hooks/react-query/referrals/useGetPagingReferrals';
 
-export const ReferralsTable = () => {
+type ReferralsTableProps = {
+	partnerId?: string;
+};
+
+export const ReferralsTable = ({ partnerId }: ReferralsTableProps) => {
 	const [page, setPage] = useState(1);
 	const [deleteId, setDeleteId] = useState<string | null>(null);
 
 	const { data: referrals, isLoading } = useGetPagingReferrals({
 		page,
 		limit: 10,
+		partnerId,
 	});
 
 	const {

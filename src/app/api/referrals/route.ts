@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 
+import { Prisma } from '@prisma/client';
 import { ZodError } from 'zod/v4';
 
 import { createClient } from '@helpers/prisma/server';
+import { isAdminRole } from '@helpers/supabase/isAdmin';
 
 import { AuthRequest } from '../types/common';
 import { catchZodError } from '../utils/catchZodError';
@@ -15,12 +17,19 @@ const getPaging = async (request: AuthRequest) => {
 
 	const page = searchParams.get('page') ?? 1;
 	const limit = searchParams.get('limit') ?? 10;
+	const partnerId = searchParams.get('partnerId') ?? '';
 
 	const prisma = createClient();
 
 	const skip = (Number(page) - 1) * Number(limit);
 
-	const total = await prisma.referrals.count();
+	const where: Prisma.ReferralsWhereInput = {};
+
+	if (isAdminRole(request.user) && partnerId) {
+		where.partnerId = partnerId;
+	}
+
+	const total = await prisma.referrals.count({ where });
 
 	const referrals = await prisma.referrals.findMany({
 		skip,
@@ -29,6 +38,7 @@ const getPaging = async (request: AuthRequest) => {
 		include: {
 			program: true,
 		},
+		where,
 	});
 
 	return NextResponse.json({

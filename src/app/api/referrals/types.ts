@@ -2,7 +2,9 @@ import z from 'zod/v4';
 
 import { PagingQueryParams } from '../types/common';
 
-export type GetReferralsQueryParams = PagingQueryParams & {};
+export type GetReferralsQueryParams = PagingQueryParams & {
+	partnerId?: string;
+};
 
 export const CreateReferralSchema = z.object({
 	firstName: z.string().min(1, 'First name is required'),
