@@ -52,6 +52,7 @@ const Surface = createPolymorphicComponent<'div', SurfaceProps>(
 
 			return (
 				<Box
+					p="md"
 					component="div"
 					className={combinedClassName}
 					{...others}
