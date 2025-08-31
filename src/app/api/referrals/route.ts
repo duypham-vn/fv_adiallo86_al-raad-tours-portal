@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server';
 
-import { ProgramStatus } from '@prisma/client';
 import { ZodError } from 'zod/v4';
 
 import { createClient } from '@helpers/prisma/server';
 
 import { AuthRequest } from '../types/common';
 import { catchZodError } from '../utils/catchZodError';
-import { withAdmin } from '../utils/withAdmin';
 import { withAuth } from '../utils/withAuth';
 
-import { CreateProgramSchema } from './types';
+import { CreateReferralSchema } from './types';
 
 const getPaging = async (request: AuthRequest) => {
 	const { searchParams } = new URL(request.url);
@@ -22,35 +20,54 @@ const getPaging = async (request: AuthRequest) => {
 
 	const skip = (Number(page) - 1) * Number(limit);
 
-	const total = await prisma.programs.count();
+	const total = await prisma.referrals.count();
 
-	const programs = await prisma.programs.findMany({
+	const referrals = await prisma.referrals.findMany({
 		skip,
 		take: Number(limit),
 		orderBy: { createdAt: 'desc' },
+		include: {
+			program: true,
+		},
 	});
 
 	return NextResponse.json({
-		data: programs,
+		data: referrals,
 		total,
 		error: null,
 	});
 };
 
-const create = async (request: AuthRequest) => {
+export const create = async (request: AuthRequest) => {
 	try {
 		const body = await request.json();
-		const data = CreateProgramSchema.parse(body);
+		const data = CreateReferralSchema.parse(body);
 
 		const prisma = createClient();
 
-		const program = await prisma.programs.create({
-			data: { name: data.name, status: ProgramStatus.ACTIVE },
+		const refferal = await prisma.referrals.findUnique({
+			where: {
+				passportNumber: data.passportNumber,
+			},
 		});
 
-		return NextResponse.json({ data: program }, { status: 201 });
+		if (refferal) {
+			return NextResponse.json(
+				{ error: 'Referral already exists with this passport number' },
+				{ status: 400 },
+			);
+		}
+
+		const referral = await prisma.referrals.create({
+			data: {
+				...data,
+				partnerId: request.user.id,
+			},
+		});
+
+		return NextResponse.json({ data: referral }, { status: 201 });
 	} catch (error) {
-		console.log('Sign up error', error);
+		console.log('Create referral error', error);
 
 		if (error instanceof ZodError) {
 			return catchZodError(error);
@@ -64,4 +81,4 @@ const create = async (request: AuthRequest) => {
 };
 
 export const GET = withAuth(getPaging);
-export const POST = withAuth(withAdmin(create));
+export const POST = withAuth(create);
