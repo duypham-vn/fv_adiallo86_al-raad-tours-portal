@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 
@@ -47,6 +47,10 @@ type ResetPasswordPayload = z.infer<typeof schema>;
 
 export default function ConfirmPage() {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+
+	const errorMessage = searchParams.get('error');
+	const errorDescription = searchParams.get('error_description');
 
 	const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -85,13 +89,40 @@ export default function ConfirmPage() {
 
 		const supabase = createClient();
 
-		supabase.auth.onAuthStateChange(async (event) => {
-			if (event === 'PASSWORD_RECOVERY') {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange(async (event) => {
+			console.log('event', event);
+
+			if (
+				event === 'INITIAL_SESSION' ||
+				event === 'PASSWORD_RECOVERY' ||
+				event === 'SIGNED_IN'
+			) {
 				setIsConfirmed(true);
 			}
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, [isConfirmed]);
+
+	if (errorMessage) {
+		return (
+			<Alert
+				icon={<IconAlertCircle size="1rem" />}
+				title="Reset Password Error"
+				color="red"
+				fw="semibold"
+				ta="center"
+			>
+				<Text fz="sm" fw="semibold">
+					{errorDescription}
+				</Text>
+			</Alert>
+		);
+	}
 
 	if (!isConfirmed) {
 		return (

@@ -9,11 +9,12 @@ import { PATH_AUTH } from '@configs/routes';
 import { createClient } from '@helpers/supabase/client';
 
 // Pages that don't require authentication
+const RESET_PASSWORD_PAGE = '/auth/password-reset/confirm';
+
 const PUBLIC_PAGES = [
 	PATH_AUTH.signin,
 	PATH_AUTH.signup,
 	PATH_AUTH.passwordReset,
-	'/auth/password-reset/confirm', // Password reset confirmation page
 ];
 
 interface AuthProviderProps {
@@ -27,6 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	const isPublicPage = PUBLIC_PAGES.some((page) => pathname?.startsWith(page));
+	const isResetPasswordPage = pathname?.startsWith(RESET_PASSWORD_PAGE);
 
 	useEffect(() => {
 		const supabase = createClient();
@@ -79,7 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			} else if (event === 'SIGNED_IN') {
 				setIsAuthenticated(true);
 				// If user signs in on a public page, redirect to dashboard
-				if (isPublicPage) {
+				if (isPublicPage && !isResetPasswordPage) {
 					router.push('/dashboard');
 				}
 			}
