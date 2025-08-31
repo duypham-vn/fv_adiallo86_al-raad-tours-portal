@@ -25,13 +25,13 @@ const UserProfileButton = ({
 	...others
 }: UserProfileButtonProps) => {
 	return (
-		<UnstyledButton className={classes.user} {...others}>
-			<Group>
+		<UnstyledButton className={classes.user} p={0} {...others}>
+			<Group wrap="nowrap">
 				<Avatar src={image} radius="xl" />
 
 				{showText && (
 					<div style={{ flex: 1 }}>
-						<Text size="sm" fw={500}>
+						<Text size="sm" fw="bold" c="blue.5">
 							{name}
 						</Text>
 
