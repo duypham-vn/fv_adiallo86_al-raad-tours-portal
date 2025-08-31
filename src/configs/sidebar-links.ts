@@ -1,4 +1,4 @@
-import { IconKey, IconUserCode, IconUsers } from '@tabler/icons-react';
+import { IconBus, IconKey, IconUserCode, IconUsers } from '@tabler/icons-react';
 
 import { PATH_ACCOUNTS, PATH_APPS } from './routes';
 
@@ -17,7 +17,10 @@ export const SIDEBAR_LINKS = [
 	// },
 	{
 		title: 'Apps',
-		links: [{ label: 'Referrals', icon: IconUsers, link: PATH_APPS.referrals }],
+		links: [
+			{ label: 'Programs', icon: IconBus, link: PATH_APPS.programs },
+			{ label: 'Referrals', icon: IconUsers, link: PATH_APPS.referrals },
+		],
 	},
 	{
 		title: 'Accounts',

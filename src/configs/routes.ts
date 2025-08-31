@@ -3,9 +3,10 @@ function path(root: string, sublink: string) {
 }
 
 const ROOTS_DASHBOARD = '/dashboard';
-const ROOT_APPS = '/apps';
 const ROOTS_PAGES = '/pages';
 const ROOTS_AUTH = '/auth';
+
+const ROOT_APPS = path(ROOTS_DASHBOARD, '/apps');
 const ROOTS_ACCOUNTS = path(ROOTS_DASHBOARD, '/accounts');
 
 export const PATH_DASHBOARD = {
@@ -18,6 +19,7 @@ export const PATH_DASHBOARD = {
 export const PATH_APPS = {
 	root: ROOT_APPS,
 	referrals: path(ROOT_APPS, '/referrals'),
+	programs: path(ROOT_APPS, '/programs'),
 };
 
 export const PATH_PAGES = {

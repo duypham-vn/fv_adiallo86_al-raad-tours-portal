@@ -5,10 +5,8 @@ import { createClient } from '@supabase/supabase-js';
 
 import { SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL } from '@configs/_constant';
 
-import { AuthRequest } from '../types/common';
-
 export function withAuth(
-	handler: (req: AuthRequest, res: NextResponse) => Promise<NextResponse>,
+	handler: (req: any, res: NextResponse) => Promise<NextResponse>,
 ) {
 	return async (req: NextRequest, res: NextResponse): Promise<NextResponse> => {
 		const authHeader = req.headers.get('authorization');

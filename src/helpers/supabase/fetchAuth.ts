@@ -12,7 +12,7 @@ export const fetchAuth = async (url: string, options: RequestInit = {}) => {
 
 	const token = session.access_token;
 
-	return fetch(url, {
+	const response = await fetch(url, {
 		...options,
 		headers: {
 			...options.headers,
@@ -20,4 +20,13 @@ export const fetchAuth = async (url: string, options: RequestInit = {}) => {
 			'Content-Type': 'application/json',
 		},
 	});
+
+	if (!response.ok) {
+		const errorData = await response.json().catch(() => ({}));
+		throw new Error(
+			errorData.error || `HTTP error! status: ${response.status}`,
+		);
+	}
+
+	return response;
 };

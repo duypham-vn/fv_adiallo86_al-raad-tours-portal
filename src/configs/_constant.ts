@@ -4,3 +4,4 @@ export const SUPABASE_PUBLISHABLE_KEY =
 	process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 export const SUPABASE_SERVICE_ROLE_KEY =
 	process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';

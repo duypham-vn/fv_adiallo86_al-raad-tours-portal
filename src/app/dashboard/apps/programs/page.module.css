@@ -1,0 +1,10 @@
+.card {
+	padding: var(--mantine-spacing-lg);
+	border-radius: var(--mantine-radius-default);
+	box-shadow: var(--mantine-shadow-xl);
+	border: rem(1px) solid var(--mantine-color-gray-3);
+
+	@media (max-width: $mantine-breakpoint-sm) {
+		width: rem(360);
+	}
+}
