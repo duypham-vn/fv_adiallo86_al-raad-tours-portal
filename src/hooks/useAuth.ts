@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 
 import { SignupPayload } from '@app/api/auth/signup/types';
 
+import { NEXT_PUBLIC_SITE_URL } from '@configs/_constant';
 import { PATH_AUTH } from '@configs/routes';
 
 import { useAuthStore } from '@stores/auth';
@@ -100,8 +101,10 @@ export const useAuth = () => {
 	};
 
 	const resetPassword = async (email: string) => {
+		const url = `${NEXT_PUBLIC_SITE_URL}/auth/password-reset/confirm`;
+
 		const { error } = await supabase.auth.resetPasswordForEmail(email, {
-			redirectTo: `/auth/password-reset/confirm`,
+			redirectTo: url,
 		});
 
 		if (error) {
