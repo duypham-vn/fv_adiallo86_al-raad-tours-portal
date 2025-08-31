@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
+	ActionIcon,
 	Center,
 	Group,
 	Pagination,
@@ -10,23 +11,47 @@ import {
 	Text,
 	Tooltip,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
-import { IconMoodEmpty } from '@tabler/icons-react';
+import { IconMoodEmpty, IconTrash } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 
+import { useDeleteReferral } from '@hooks/react-query/referrals/useDeleteReferral';
 import { useGetPagingReferrals } from '@hooks/react-query/referrals/useGetPagingReferrals';
 
 export const ReferralsTable = () => {
 	const [page, setPage] = useState(1);
+	const [deleteId, setDeleteId] = useState<string | null>(null);
 
 	const { data: referrals, isLoading } = useGetPagingReferrals({
 		page,
 		limit: 10,
 	});
 
+	const {
+		mutateAsync: deleteReferral,
+		isPending,
+		isError,
+		error,
+	} = useDeleteReferral();
+
+	const handleDeleteReferral = async (id: string) => {
+		setDeleteId(id);
+
+		await deleteReferral({ id });
+
+		setDeleteId(null);
+
+		notifications.show({
+			title: 'Referral deleted',
+			message: 'Referral deleted successfully',
+			color: 'green',
+		});
+	};
+
 	const loadingRows = Array.from({ length: 10 }).map((_, index) => (
 		<Table.Tr key={index}>
-			{Array.from({ length: 9 }).map((_, index) => (
+			{Array.from({ length: 10 }).map((_, index) => (
 				<Table.Td key={index}>
 					<Skeleton h={30} w="100%" />
 				</Table.Td>
@@ -36,7 +61,7 @@ export const ReferralsTable = () => {
 
 	const emptyRows = (
 		<Table.Tr>
-			<Table.Td colSpan={9}>
+			<Table.Td colSpan={10}>
 				<Center h={300}>
 					<Stack justify="center" align="center">
 						<IconMoodEmpty size={40} color="var(--theme-primary-color)" />
@@ -46,6 +71,16 @@ export const ReferralsTable = () => {
 			</Table.Td>
 		</Table.Tr>
 	);
+
+	useEffect(() => {
+		if (isError) {
+			notifications.show({
+				title: 'Error',
+				message: error.message,
+				color: 'red',
+			});
+		}
+	}, [isError, error]);
 
 	const rows = referrals?.data.map((referral, index) => (
 		<Table.Tr key={referral.id}>
@@ -76,6 +111,16 @@ export const ReferralsTable = () => {
 					</Text>
 				</Tooltip>
 			</Table.Td>
+			<Table.Td ta="center">
+				<ActionIcon
+					color="red"
+					onClick={() => handleDeleteReferral(referral.id)}
+					loading={isPending && deleteId === referral.id}
+					disabled={isPending && deleteId === referral.id}
+				>
+					<IconTrash size={16} />
+				</ActionIcon>
+			</Table.Td>
 		</Table.Tr>
 	));
 
@@ -97,6 +142,9 @@ export const ReferralsTable = () => {
 						Created At
 					</Table.Th>
 					<Table.Th w={200}>Additional Notes</Table.Th>
+					<Table.Th w={100} ta="center">
+						Actions
+					</Table.Th>
 				</Table.Tr>
 			</Table.Thead>
 
@@ -106,7 +154,7 @@ export const ReferralsTable = () => {
 
 			<Table.Tfoot>
 				<Table.Tr>
-					<Table.Td colSpan={9}>
+					<Table.Td colSpan={10}>
 						<Group justify="space-between">
 							{hasData && (
 								<Text fz="sm" fw={500}>

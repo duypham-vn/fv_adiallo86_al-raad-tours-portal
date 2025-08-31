@@ -6,9 +6,9 @@ import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL } from '@configs/_constant';
 
 export function withAuth(
-	handler: (req: any, res: NextResponse) => Promise<NextResponse>,
+	handler: (req: any, ...args: any[]) => Promise<NextResponse>,
 ) {
-	return async (req: NextRequest, res: NextResponse): Promise<NextResponse> => {
+	return async (req: NextRequest, ...args: any[]): Promise<NextResponse> => {
 		const authHeader = req.headers.get('authorization');
 
 		if (!authHeader?.startsWith('Bearer ')) {
@@ -33,6 +33,6 @@ export function withAuth(
 
 		const authRequest = Object.assign(req, { user });
 
-		return handler(authRequest, res);
+		return handler(authRequest, ...args);
 	};
 }
