@@ -1,5 +1,3 @@
-import { getURL } from '@helpers/supabase/getUrl';
-
 // Supabase
 export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 export const SUPABASE_PUBLISHABLE_KEY =
@@ -7,5 +5,4 @@ export const SUPABASE_PUBLISHABLE_KEY =
 export const SUPABASE_SERVICE_ROLE_KEY =
 	process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 export const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || '';
-
-export const NEXT_PUBLIC_SITE_URL = getURL();
+export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';

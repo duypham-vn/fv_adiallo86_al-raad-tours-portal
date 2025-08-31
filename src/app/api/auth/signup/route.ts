@@ -6,8 +6,6 @@ import { ZodError } from 'zod';
 import { ApiResponse } from '@app/api/types/common';
 import { catchZodError } from '@app/api/utils/catchZodError';
 
-import { NEXT_PUBLIC_SITE_URL } from '@configs/_constant';
-
 import { createClient as createPrismaClient } from '@helpers/prisma/server';
 import { createClient } from '@helpers/supabase/server';
 
@@ -32,7 +30,6 @@ export async function POST(
 				data: {
 					full_name: `${firstName} ${lastName}`,
 				},
-				emailRedirectTo: NEXT_PUBLIC_SITE_URL,
 			},
 		});
 
